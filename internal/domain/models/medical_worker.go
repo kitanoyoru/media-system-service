@@ -5,13 +5,15 @@ import (
 	"gorm.io/gorm"
 )
 
-type User struct {
+type MedicalWorker struct {
 	gorm.Model
 	Username string `gorm:"unique;not null"`
 	Password string `gorm:"not null"`
+
+	Patients []Patient
 }
 
-func (u *User) SetPassword(password string) error {
+func (u *MedicalWorker) SetPassword(password string) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
@@ -20,7 +22,7 @@ func (u *User) SetPassword(password string) error {
 	return nil
 }
 
-func (u *User) CheckPassword(password string) bool {
+func (u *MedicalWorker) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 	return err == nil
 }
