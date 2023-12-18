@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
+	"github.com/kitanoyoru/media-system-service/internal/domain/dtos"
 	"github.com/kitanoyoru/media-system-service/internal/domain/models"
 	"gorm.io/gorm"
 )
@@ -13,13 +14,13 @@ type TendencyService struct {
 	db *gorm.DB
 }
 
-func (ts *TendencyService) GetTendancy(patientName string, indicatorName int) (*charts.Bar, error) {
-	patient, err := ts.getPatientByName(patientName)
+func (ts *TendencyService) GetTendency(dto *dtos.GetTendencyDTO) (*charts.Bar, error) {
+	patient, err := ts.getPatientByName(dto.PatientName)
 	if err != nil {
 		return nil, err
 	}
 
-	indicators, err := patient.IndicatorInteraction.GetDynamicIndicators(indicatorName)
+	indicators, err := patient.IndicatorInteraction.GetDynamicIndicators(dto.IndicatorName)
 	if err != nil {
 		return nil, err
 	}
@@ -27,7 +28,7 @@ func (ts *TendencyService) GetTendancy(patientName string, indicatorName int) (*
 	bar := charts.NewBar()
 
 	bar.SetGlobalOptions(charts.WithTitleOpts(opts.Title{
-		Title: fmt.Sprintf("Tendancy of %d for %s", indicatorName, patientName),
+		Title: fmt.Sprintf("Tendency of %d for %s", dto.IndicatorName, dto.PatientName),
 	}))
 	bar.AddSeries("Category B", ts.convertToBarItems(indicators))
 

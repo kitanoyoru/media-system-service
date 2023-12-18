@@ -25,3 +25,8 @@ type RegisterRequestDTO struct {
 type RegisterResponseDTO struct {
 	Code int `json:"code"`
 }
+
+type GetTendencyDTO struct {
+	PatientName   string `json:"patient_name"`
+	IndicatorName int    `json:"indicator_name"`
+}
