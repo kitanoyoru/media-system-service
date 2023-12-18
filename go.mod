@@ -3,6 +3,7 @@ module github.com/kitanoyoru/media-system-service
 go 1.21.4
 
 require (
+	github.com/go-echarts/go-echarts/v2 v2.3.2
 	github.com/gofiber/fiber/v2 v2.51.0
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	golang.org/x/crypto v0.16.0
