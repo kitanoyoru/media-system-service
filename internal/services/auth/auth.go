@@ -26,6 +26,12 @@ type AuthService struct {
 	db *gorm.DB
 }
 
+func NewAuthService(db *gorm.DB) *AuthService {
+	return &AuthService{
+		db,
+	}
+}
+
 func (as *AuthService) GetJWTToken(dto *dtos.LoginRequestDTO) (string, error) {
 	medicalWorker := models.MedicalWorker{}
 	err := as.db.First(&medicalWorker, "username = ?", dto.Username).Error

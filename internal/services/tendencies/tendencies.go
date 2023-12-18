@@ -14,6 +14,12 @@ type TendencyService struct {
 	db *gorm.DB
 }
 
+func NewTendencyService(db *gorm.DB) *TendencyService {
+	return &TendencyService{
+		db,
+	}
+}
+
 func (ts *TendencyService) GetTendency(dto *dtos.GetTendencyDTO) (*charts.Bar, error) {
 	patient, err := ts.getPatientByName(dto.PatientName)
 	if err != nil {

@@ -6,19 +6,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type RecommendationService struct {
-	db *gorm.DB
-}
-
 const (
 	HeartBeatNormDifference     = 10.0
 	BloodPressureNormDifference = 15.0
 	WeightNormDifference        = 20.0
 )
 
+type RecommendationService struct {
+	db *gorm.DB
+}
+
 func NewRecommendationService(db *gorm.DB) *RecommendationService {
 	return &RecommendationService{
-		db: db,
+		db,
 	}
 }
 

@@ -21,8 +21,8 @@ func NewAuthController(db *gorm.DB, authService *auth.AuthService) *AuthControll
 }
 
 func (c *AuthController) Route(app *fiber.App) {
-	app.Post("/api/v0/login", c.loginHandler)
-	app.Post("/api/v0/register", c.registerHandler)
+	app.Post("/login", c.loginHandler)
+	app.Post("/register", c.registerHandler)
 }
 
 func (c *AuthController) loginHandler(ctx *fiber.Ctx) error {

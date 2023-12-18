@@ -30,3 +30,14 @@ type GetTendencyDTO struct {
 	PatientName   string `json:"patient_name"`
 	IndicatorName int    `json:"indicator_name"`
 }
+
+type PostRecommendationRequestDTO struct {
+	PatientName   string    `json:"patient_name"`
+	IndicatorName int       `json:"indicator_name"`
+	Indicators    []float64 `json:"indicators"`
+}
+
+type PostRecommendationResponseDTO struct {
+	Code   int  `json:"code"`
+	Answer bool `json:"answer"`
+}
