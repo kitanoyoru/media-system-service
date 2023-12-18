@@ -8,16 +8,17 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/kitanoyoru/media-system-service/internal/api/http/v0/controllers"
+	"github.com/kitanoyoru/media-system-service/internal/services/auth"
+	"gorm.io/gorm"
 )
 
-type Router struct {
-	app *fiber.App
-}
-
-func NewRouter() (*Router, error) {
+func NewRouter(db *gorm.DB, authService *auth.AuthService) (*fiber.App, error) {
 	app := fiber.New()
 
 	app.Use(recover.New())
+	app.Use(session.New())
 	app.Use(logger.New())
 	app.Use(cors.New())
 	app.Use(limiter.New(limiter.Config{
@@ -25,7 +26,7 @@ func NewRouter() (*Router, error) {
 		Expiration: time.Second * 60,
 	}))
 
-	return &Router{
-		app,
-	}, nil
+	controllers.NewAuthController(db, authService).Route(app)
+
+	return app, nil
 }

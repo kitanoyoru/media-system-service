@@ -61,7 +61,7 @@ type IndicatorInteraction struct {
 	PatientID uint
 }
 
-func (i *IndicatorInteraction) GetDynamicIndicators(indicatorName int) ([]float64, error) {
+func (i IndicatorInteraction) GetDynamicIndicators(indicatorName int) ([]float64, error) {
 	switch indicatorName {
 	case HeartRateIndicator:
 		return i.getHeartRates(), nil
@@ -72,7 +72,7 @@ func (i *IndicatorInteraction) GetDynamicIndicators(indicatorName int) ([]float6
 	}
 }
 
-func (i *IndicatorInteraction) SendDynamicIndicators(indicatorName int, indicatorValues []float64) {
+func (i IndicatorInteraction) SendDynamicIndicators(indicatorName int, indicatorValues []float64) {
 	switch indicatorName {
 	case HeartRateIndicator:
 		i.addHeartRates(indicatorValues)
@@ -81,7 +81,7 @@ func (i *IndicatorInteraction) SendDynamicIndicators(indicatorName int, indicato
 	}
 }
 
-func (i *IndicatorInteraction) GetStaticIndicators(indicatorName int) (float64, error) {
+func (i IndicatorInteraction) GetStaticIndicators(indicatorName int) (float64, error) {
 	switch indicatorName {
 	case HeightIndicator:
 		return i.getHeight(), nil
@@ -92,7 +92,7 @@ func (i *IndicatorInteraction) GetStaticIndicators(indicatorName int) (float64, 
 	}
 }
 
-func (i *IndicatorInteraction) SetStaticIndicators(indicatorName int, value float64) {
+func (i IndicatorInteraction) SetStaticIndicators(indicatorName int, value float64) {
 	switch indicatorName {
 	case HeightIndicator:
 		i.setHeight(value)
@@ -101,7 +101,7 @@ func (i *IndicatorInteraction) SetStaticIndicators(indicatorName int, value floa
 	}
 }
 
-func (i *IndicatorInteraction) getHeartRates() []float64 {
+func (i IndicatorInteraction) getHeartRates() []float64 {
 	heartRates := make([]float64, len(i.HeartRates))
 	for idx, hr := range i.HeartRates {
 		heartRates[idx] = float64(hr.Value)
@@ -109,7 +109,7 @@ func (i *IndicatorInteraction) getHeartRates() []float64 {
 	return heartRates
 }
 
-func (i *IndicatorInteraction) addHeartRates(values []float64) {
+func (i IndicatorInteraction) addHeartRates(values []float64) {
 	currentTime := time.Now()
 	for _, value := range values {
 		heartRate := HeartRate{
@@ -121,7 +121,7 @@ func (i *IndicatorInteraction) addHeartRates(values []float64) {
 	}
 }
 
-func (i *IndicatorInteraction) getBloodPressures() []float64 {
+func (i IndicatorInteraction) getBloodPressures() []float64 {
 	bloodPressures := make([]float64, len(i.BloodPressures))
 	for idx, bp := range i.BloodPressures {
 		bloodPressures[idx] = float64(bp.Value)
@@ -129,7 +129,7 @@ func (i *IndicatorInteraction) getBloodPressures() []float64 {
 	return bloodPressures
 }
 
-func (i *IndicatorInteraction) addBloodPressures(values []float64) {
+func (i IndicatorInteraction) addBloodPressures(values []float64) {
 	currentTime := time.Now()
 	for _, value := range values {
 		bloodPressure := BloodPressure{
@@ -141,18 +141,18 @@ func (i *IndicatorInteraction) addBloodPressures(values []float64) {
 	}
 }
 
-func (i *IndicatorInteraction) getHeight() float64 {
+func (i IndicatorInteraction) getHeight() float64 {
 	return i.Height.Value
 }
 
-func (i *IndicatorInteraction) setHeight(value float64) {
+func (i IndicatorInteraction) setHeight(value float64) {
 	i.Height.Value = value
 }
 
-func (i *IndicatorInteraction) getWeight() float64 {
+func (i IndicatorInteraction) getWeight() float64 {
 	return i.Weight.Value
 }
 
-func (i *IndicatorInteraction) setWeight(value float64) {
+func (i IndicatorInteraction) setWeight(value float64) {
 	i.Weight.Value = value
 }

@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Patient struct {
 	gorm.Model
 
-	Name string `gorm:"not null"`
+	Name string `gorm:"column:name;not null"`
 
 	MedicalWorkerID      uint
 	IndicatorInteraction IndicatorInteraction
