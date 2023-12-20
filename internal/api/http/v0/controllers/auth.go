@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/kitanoyoru/media-system-service/internal/domain/dtos"
 	"github.com/kitanoyoru/media-system-service/internal/domain/models"
@@ -38,7 +40,7 @@ func (c *AuthController) loginHandler(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(dtos.ErrResponseDTO{
 			Code:    fiber.StatusInternalServerError,
-			Message: "Failed to get JWT token",
+			Message: fmt.Sprintf("Failed to get JWT token: %v", err),
 		})
 	}
 
@@ -64,8 +66,8 @@ func (c *AuthController) registerHandler(ctx *fiber.Ctx) error {
 
 	medicalWorker := models.MedicalWorker{
 		Username: registerDTO.Username,
-		Password: registerDTO.Password,
 	}
+	medicalWorker.SetPassword(registerDTO.Password)
 
 	if err := c.db.Save(&medicalWorker).Error; err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(dtos.ErrResponseDTO{

@@ -26,7 +26,12 @@ func (ts *TendencyService) GetTendency(dto *dtos.GetTendencyDTO) (*charts.Bar, e
 		return nil, err
 	}
 
-	indicators, err := patient.IndicatorInteraction.GetDynamicIndicators(dto.IndicatorName)
+	indicator, err := ts.getIndicatorByPatientID(patient.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	indicators, err := indicator.GetDynamicIndicators(dto.IndicatorName)
 	if err != nil {
 		return nil, err
 	}
@@ -43,11 +48,20 @@ func (ts *TendencyService) GetTendency(dto *dtos.GetTendencyDTO) (*charts.Bar, e
 
 func (ts *TendencyService) getPatientByName(name string) (*models.Patient, error) {
 	patient := models.Patient{}
-	if err := ts.db.Preload("IndicatorInteraction").Preload("MedicalWorker").First(&patient, "name = ?", name).Error; err != nil {
+	if err := ts.db.First(&patient, "name = ?", name).Error; err != nil {
 		return nil, err
 	}
 
 	return &patient, nil
+}
+
+func (ts *TendencyService) getIndicatorByPatientID(patient_id uint) (*models.IndicatorInteraction, error) {
+	indicator := models.IndicatorInteraction{}
+	if err := ts.db.Preload("Weight").Preload("HeartRates").Preload("BloodPressures").First(&indicator, "patient_id = ?", patient_id).Error; err != nil {
+		return nil, err
+	}
+
+	return &indicator, nil
 }
 
 func (ts *TendencyService) convertToBarItems(values []float64) []opts.BarData {

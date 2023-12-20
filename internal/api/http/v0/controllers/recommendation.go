@@ -51,8 +51,12 @@ func (c *RecommendationController) getRecommendationHandler(ctx *fiber.Ctx) erro
 	}
 
 	response := dtos.PostRecommendationResponseDTO{
-		Code:   fiber.StatusOK,
-		Answer: recommendation,
+		Code: fiber.StatusOK,
+		Data: struct {
+			Answer bool `json:"answer"`
+		}{
+			Answer: recommendation,
+		},
 	}
 
 	return ctx.Status(fiber.StatusOK).JSON(response)

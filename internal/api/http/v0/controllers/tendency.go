@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bytes"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/kitanoyoru/media-system-service/internal/domain/dtos"
@@ -22,12 +23,12 @@ func NewTendencyController(db *gorm.DB, tendencyService *tendencies.TendencyServ
 }
 
 func (c *TendencyController) Route(app *fiber.App) {
-	app.Get("/api/v0/tendency", c.getTendencyHandler)
+	app.Post("/api/v0/tendency", c.getTendencyHandler)
 }
 
 func (c *TendencyController) getTendencyHandler(ctx *fiber.Ctx) error {
 	getTendencyDTO := new(dtos.GetTendencyDTO)
-	if err := ctx.QueryParser(getTendencyDTO); err != nil {
+	if err := ctx.BodyParser(getTendencyDTO); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(dtos.ErrResponseDTO{
 			Code:    fiber.StatusBadRequest,
 			Message: "Invalid request body",
@@ -38,7 +39,7 @@ func (c *TendencyController) getTendencyHandler(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(dtos.ErrResponseDTO{
 			Code:    fiber.StatusInternalServerError,
-			Message: "Internal error",
+			Message: fmt.Sprintf("Internal error: %v", err),
 		})
 	}
 

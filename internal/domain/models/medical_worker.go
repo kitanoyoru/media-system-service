@@ -21,8 +21,3 @@ func (u *MedicalWorker) SetPassword(password string) error {
 	u.Password = string(hashedPassword)
 	return nil
 }
-
-func (u *MedicalWorker) CheckPassword(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
-	return err == nil
-}

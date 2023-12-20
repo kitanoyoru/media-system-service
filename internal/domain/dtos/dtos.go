@@ -38,6 +38,8 @@ type PostRecommendationRequestDTO struct {
 }
 
 type PostRecommendationResponseDTO struct {
-	Code   int  `json:"code"`
-	Answer bool `json:"answer"`
+	Code int `json:"code"`
+	Data struct {
+		Answer bool `json:"answer"`
+	} `json:"data"`
 }

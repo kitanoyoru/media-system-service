@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - '13000:5432'
+    environment:
+      - POSTGRES_USER=kitanoyoru
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=Lab
+    volumes:
+      - ./data:/var/lib/postgresql/data
