@@ -13,8 +13,10 @@ type LoginResponseDTO struct {
 }
 
 type ErrResponseDTO struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
+	Code int `json:"code"`
+	Data struct {
+		Message string `json:"message"`
+	} `json:"data"`
 }
 
 type RegisterRequestDTO struct {
@@ -28,12 +30,12 @@ type RegisterResponseDTO struct {
 
 type GetTendencyDTO struct {
 	PatientName   string `json:"patient_name"`
-	IndicatorName int    `json:"indicator_name"`
+	IndicatorName string `json:"indicator_name"`
 }
 
 type PostRecommendationRequestDTO struct {
 	PatientName   string    `json:"patient_name"`
-	IndicatorName int       `json:"indicator_name"`
+	IndicatorName string    `json:"indicator_name"`
 	Indicators    []float64 `json:"indicators"`
 }
 

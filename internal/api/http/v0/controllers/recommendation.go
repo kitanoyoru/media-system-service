@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/kitanoyoru/media-system-service/internal/domain/dtos"
-	"github.com/kitanoyoru/media-system-service/internal/domain/models"
 	"github.com/kitanoyoru/media-system-service/internal/services/recommendation"
 	"gorm.io/gorm"
 )
@@ -28,25 +27,24 @@ func (c *RecommendationController) getRecommendationHandler(ctx *fiber.Ctx) erro
 	getRecommendationDTO := new(dtos.PostRecommendationRequestDTO)
 	if err := ctx.BodyParser(getRecommendationDTO); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusBadRequest,
-			Message: "Invalid request body",
+			Code: fiber.StatusBadRequest,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Invalid request body",
+			},
 		})
 	}
 
-	var (
-		recommendation bool
-		err            error
-	)
-
-	switch getRecommendationDTO.IndicatorName {
-	case models.HeartRateIndicator:
-		recommendation, err = c.recommendationService.PatientHeartRateInNorm(getRecommendationDTO.PatientName, getRecommendationDTO.Indicators)
-	}
-
+	recommendation, err := c.recommendationService.GetRecommendationByName(getRecommendationDTO.IndicatorName, getRecommendationDTO.PatientName, getRecommendationDTO.Indicators)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusInternalServerError,
-			Message: "Internal error",
+			Code: fiber.StatusInternalServerError,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Internal Error",
+			},
 		})
 	}
 

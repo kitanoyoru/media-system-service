@@ -1,6 +1,8 @@
 package recommendation
 
 import (
+	"errors"
+
 	"github.com/kitanoyoru/media-system-service/internal/domain/models"
 	"github.com/kitanoyoru/media-system-service/pkg/helpers"
 	"gorm.io/gorm"
@@ -19,6 +21,17 @@ type RecommendationService struct {
 func NewRecommendationService(db *gorm.DB) *RecommendationService {
 	return &RecommendationService{
 		db,
+	}
+}
+
+func (rs *RecommendationService) GetRecommendationByName(indicatorName, patientName string, indicators []float64) (bool, error) {
+	switch indicatorName {
+	case models.HeartRateIndicator:
+		return rs.PatientHeartRateInNorm(patientName, indicators)
+	case models.BloodPressureIndicator:
+		return rs.PatientBloodPressureInNorm(patientName, indicators)
+	default:
+		return false, errors.New("failed to get recommendation")
 	}
 }
 

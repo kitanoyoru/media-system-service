@@ -2,20 +2,19 @@ package controllers
 
 import (
 	"bytes"
-	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/kitanoyoru/media-system-service/internal/domain/dtos"
-	"github.com/kitanoyoru/media-system-service/internal/services/tendencies"
+	"github.com/kitanoyoru/media-system-service/internal/services/tendency"
 	"gorm.io/gorm"
 )
 
 type TendencyController struct {
 	db              *gorm.DB
-	tendencyService *tendencies.TendencyService
+	tendencyService *tendency.TendencyService
 }
 
-func NewTendencyController(db *gorm.DB, tendencyService *tendencies.TendencyService) *TendencyController {
+func NewTendencyController(db *gorm.DB, tendencyService *tendency.TendencyService) *TendencyController {
 	return &TendencyController{
 		db,
 		tendencyService,
@@ -30,16 +29,24 @@ func (c *TendencyController) getTendencyHandler(ctx *fiber.Ctx) error {
 	getTendencyDTO := new(dtos.GetTendencyDTO)
 	if err := ctx.BodyParser(getTendencyDTO); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusBadRequest,
-			Message: "Invalid request body",
+			Code: fiber.StatusBadRequest,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Invalid request body",
+			},
 		})
 	}
 
 	bar, err := c.tendencyService.GetTendency(getTendencyDTO)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusInternalServerError,
-			Message: fmt.Sprintf("Internal error: %v", err),
+			Code: fiber.StatusInternalServerError,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Internal Error",
+			},
 		})
 	}
 
@@ -49,8 +56,12 @@ func (c *TendencyController) getTendencyHandler(ctx *fiber.Ctx) error {
 	_, err = ctx.Write(buffer.Bytes())
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusInternalServerError,
-			Message: "Internal error",
+			Code: fiber.StatusInternalServerError,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Internal Error",
+			},
 		})
 	}
 

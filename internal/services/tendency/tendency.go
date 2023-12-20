@@ -1,4 +1,4 @@
-package tendencies
+package tendency
 
 import (
 	"fmt"
@@ -39,7 +39,7 @@ func (ts *TendencyService) GetTendency(dto *dtos.GetTendencyDTO) (*charts.Bar, e
 	bar := charts.NewBar()
 
 	bar.SetGlobalOptions(charts.WithTitleOpts(opts.Title{
-		Title: fmt.Sprintf("Tendency of %d for %s", dto.IndicatorName, dto.PatientName),
+		Title: fmt.Sprintf("Tendency of %s for %s", dto.IndicatorName, dto.PatientName),
 	}))
 	bar.AddSeries("Category B", ts.convertToBarItems(indicators))
 

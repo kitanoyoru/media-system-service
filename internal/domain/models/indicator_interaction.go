@@ -9,12 +9,12 @@ import (
 
 const (
 	// static indicators
-	HeightIndicator = iota
-	WeightIndicator
+	HeightIndicator = "height"
+	WeightIndicator = "weight"
 
 	// dynamic indicators
-	HeartRateIndicator
-	BloodPressureIndicator
+	HeartRateIndicator     = "heart_rate"
+	BloodPressureIndicator = "blood_pressure"
 )
 
 var (
@@ -61,7 +61,7 @@ type IndicatorInteraction struct {
 	PatientID uint
 }
 
-func (i *IndicatorInteraction) GetDynamicIndicators(indicatorName int) ([]float64, error) {
+func (i *IndicatorInteraction) GetDynamicIndicators(indicatorName string) ([]float64, error) {
 	switch indicatorName {
 	case HeartRateIndicator:
 		return i.getHeartRates(), nil
@@ -72,7 +72,7 @@ func (i *IndicatorInteraction) GetDynamicIndicators(indicatorName int) ([]float6
 	}
 }
 
-func (i *IndicatorInteraction) SendDynamicIndicators(indicatorName int, indicatorValues []float64) {
+func (i *IndicatorInteraction) SendDynamicIndicators(indicatorName string, indicatorValues []float64) {
 	switch indicatorName {
 	case HeartRateIndicator:
 		i.addHeartRates(indicatorValues)
@@ -81,7 +81,7 @@ func (i *IndicatorInteraction) SendDynamicIndicators(indicatorName int, indicato
 	}
 }
 
-func (i *IndicatorInteraction) GetStaticIndicators(indicatorName int) (float64, error) {
+func (i *IndicatorInteraction) GetStaticIndicators(indicatorName string) (float64, error) {
 	switch indicatorName {
 	case HeightIndicator:
 		return i.getHeight(), nil
@@ -92,7 +92,7 @@ func (i *IndicatorInteraction) GetStaticIndicators(indicatorName int) (float64, 
 	}
 }
 
-func (i *IndicatorInteraction) SetStaticIndicators(indicatorName int, value float64) {
+func (i *IndicatorInteraction) SetStaticIndicators(indicatorName string, value float64) {
 	switch indicatorName {
 	case HeightIndicator:
 		i.setHeight(value)

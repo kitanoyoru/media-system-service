@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/kitanoyoru/media-system-service/internal/domain/dtos"
 	"github.com/kitanoyoru/media-system-service/internal/domain/models"
@@ -31,16 +29,24 @@ func (c *AuthController) loginHandler(ctx *fiber.Ctx) error {
 	loginDTO := new(dtos.LoginRequestDTO)
 	if err := ctx.BodyParser(loginDTO); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusBadRequest,
-			Message: "Invalid request body",
+			Code: fiber.StatusBadRequest,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Invalid request body",
+			},
 		})
 	}
 
 	token, err := c.authService.GetJWTToken(loginDTO)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusInternalServerError,
-			Message: fmt.Sprintf("Failed to get JWT token: %v", err),
+			Code: fiber.StatusInternalServerError,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Failed to get JWT token",
+			},
 		})
 	}
 
@@ -59,8 +65,12 @@ func (c *AuthController) registerHandler(ctx *fiber.Ctx) error {
 	registerDTO := new(dtos.RegisterRequestDTO)
 	if err := ctx.BodyParser(registerDTO); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusBadRequest,
-			Message: "Invalid request body",
+			Code: fiber.StatusBadRequest,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Invalid request body",
+			},
 		})
 	}
 
@@ -71,8 +81,12 @@ func (c *AuthController) registerHandler(ctx *fiber.Ctx) error {
 
 	if err := c.db.Save(&medicalWorker).Error; err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(dtos.ErrResponseDTO{
-			Code:    fiber.StatusInternalServerError,
-			Message: "Internal error",
+			Code: fiber.StatusInternalServerError,
+			Data: struct {
+				Message string `json:"message"`
+			}{
+				Message: "Internal Error",
+			},
 		})
 	}
 
