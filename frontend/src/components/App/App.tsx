@@ -10,14 +10,15 @@ import {
   LOGIN,
   LOGOUT,
   MAIN,
+  PATIENTS,
   RECOMMENDATION,
   RECOMMENDATION_FORM,
 } from "../../constants";
 import { Analytics } from "../../pages/Analytics";
 import { AnalyticsForm } from "../../pages/Analytics/Form";
 
-import { Home } from "../../pages/Home";
 import { Login } from "../../pages/Login";
+import Patients from "../../pages/Patients/Patients";
 import { Recommendation, RecommendationForm } from "../../pages/Recommendation";
 import { authProvider } from "../../providers/auth";
 import { Layout } from "../Layout/Layout";
@@ -31,10 +32,6 @@ const router = createBrowserRouter([
     },
     Component: Layout,
     children: [
-      {
-        index: true,
-        Component: Home,
-      },
       {
         path: LOGIN,
         action: loginAction,
@@ -60,6 +57,11 @@ const router = createBrowserRouter([
         path: ANALYTICS,
         loader: protectedLoader,
         Component: Analytics,
+      },
+      {
+        path: PATIENTS,
+        loader: protectedLoader,
+        Component: Patients,
       },
     ],
   },

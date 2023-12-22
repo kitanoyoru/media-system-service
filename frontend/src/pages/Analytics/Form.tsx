@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getAnalytics } from "../../api";
 import { ANALYTICS } from "../../constants";
 import { saveAs } from "file-saver";
+import styles from "./Form.module.scss";
 
 export interface IAnalyticsForm {
   patient_name: string;
@@ -41,12 +42,30 @@ export const AnalyticsForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("patientName", { required: true })} />
-      {errors.patientName && <p>Patient name is required.</p>}
-      <input {...register("indicatorName", { required: true })} />
-      {errors.indicatorName && <p>Indicator name is required.</p>}
-      <input type="submit" />
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.recommendationForm}>
+      <div className={styles.formGroup}>
+        <label htmlFor="patientName" className={styles.label}>
+          Patient Name
+        </label>
+        <input
+          {...register("patientName", { required: true })}
+          className={styles.input}
+        />
+        {errors.patientName && <p className={styles.error}>Patient name is required.</p>}
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="indicatorName" className={styles.label}>
+          Indicator Name
+        </label>
+        <input
+          {...register("indicatorName", { required: true })}
+          className={styles.input}
+        />
+        {errors.indicatorName && <p className={styles.error}>Indicator name is required.</p>}
+      </div>
+
+      <input type="submit" className={styles.submitButton} value="Submit" />
     </form>
   );
 };

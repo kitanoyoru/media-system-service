@@ -10,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/kitanoyoru/media-system-service/internal/api/http/v0/controllers"
 	"github.com/kitanoyoru/media-system-service/internal/services/auth"
+	"github.com/kitanoyoru/media-system-service/internal/services/patient"
 	"github.com/kitanoyoru/media-system-service/internal/services/recommendation"
 	"github.com/kitanoyoru/media-system-service/internal/services/tendency"
 	"gorm.io/gorm"
@@ -50,6 +51,9 @@ func NewRouter(db *gorm.DB) (*fiber.App, error) {
 
 	recommendationService := recommendation.NewRecommendationService(db)
 	controllers.NewRecommendationController(db, recommendationService).Route(app)
+
+	patientService := patient.NewPatientService(db)
+	controllers.NewPatientController(db, patientService).Route(app)
 
 	return app, nil
 }

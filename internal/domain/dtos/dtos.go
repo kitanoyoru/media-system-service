@@ -1,5 +1,7 @@
 package dtos
 
+import "github.com/kitanoyoru/media-system-service/internal/domain/models"
+
 type LoginRequestDTO struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -43,5 +45,16 @@ type PostRecommendationResponseDTO struct {
 	Code int `json:"code"`
 	Data struct {
 		Answer bool `json:"answer"`
+	} `json:"data"`
+}
+
+type GetPatientsRequestDTO struct {
+	Username string `json:"username"`
+}
+
+type GetPatientsResponseDTO struct {
+	Code int `json:"code"`
+	Data struct {
+		Patients []models.Patient `json:"patients"`
 	} `json:"data"`
 }

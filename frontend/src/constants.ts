@@ -7,3 +7,4 @@ export const RECOMMENDATION_FORM = "/form/recommendation" as const;
 export const RECOMMENDATION = "/recommendation" as const;
 export const ANALYTICS_FORM = "/form/analytics" as const;
 export const ANALYTICS = "/analytics" as const;
+export const PATIENTS = "/patients" as const;

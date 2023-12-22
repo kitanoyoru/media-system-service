@@ -1,0 +1,51 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+p {
+  margin-bottom: 12px;
+}
+
+.navLinks {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+
+.navLinks li {
+  display: inline-block;
+  margin-right: 12px;
+}
+
+.navLinks li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.authStatus {
+  margin-top: 24px;
+}
+
+.authStatus p {
+  margin-bottom: 12px;
+}
+
+.authStatus button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.authStatus button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

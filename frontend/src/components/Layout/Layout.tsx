@@ -1,14 +1,19 @@
 import { Link, Outlet, useFetcher, useRouteLoaderData } from "react-router-dom";
+import { getUsernameFromToken } from "../../utils/auth";
+
+import styles from "./Layout.module.scss";
 
 export const Layout = () => {
   return (
-    <div>
-      <h1>Auth Example using RouterProvider</h1>
+    <div className={styles.container}>
+      <h1>Medical system service</h1>
 
       <p>
-        This example demonstrates a simple login flow with three pages: a public
-        page, a protected page, and a login page. In order to see the protected
-        page, you must first login. Pretty standard stuff.
+        A medical service system is a digital platform designed to facilitate
+        the delivery of healthcare services. It typically includes features such
+        as appointment scheduling, medical records management, prescription
+        management, and communication tools between patients and healthcare
+        providers.
       </p>
 
       <p>
@@ -18,23 +23,24 @@ export const Layout = () => {
       </p>
 
       <p>
-        Notice the URL change each time. If you click the back button at this
-        point, would you expect to go back to the login page? No! You're already
-        logged in. Try it out, and you'll see you go back to the page you
-        visited just *before* logging in, the public page.
+        For healthcare providers, the system offers tools to manage patient
+        appointments, access and update patient records, prescribe medications
+        electronically, and communicate with patients. It can streamline
+        administrative tasks, improve efficiency, and enhance patient care by
+        providing easy access to relevant medical information.
       </p>
 
       <AuthStatus />
 
-      <ul>
-        <li>
-          <Link to="/">Home Page</Link>
-        </li>
+      <ul className={styles.navLinks}>
         <li>
           <Link to="/form/recommendation">Recommendation Page</Link>
         </li>
         <li>
           <Link to="/form/analytics">Analytics Page</Link>
+        </li>
+        <li>
+          <Link to="/patients">Patients Page</Link>
         </li>
       </ul>
 
@@ -44,7 +50,6 @@ export const Layout = () => {
 };
 
 function AuthStatus() {
-  console.log(useRouteLoaderData("root"));
   let { token } = useRouteLoaderData("root") as { token: string | null };
   let fetcher = useFetcher();
 
@@ -55,8 +60,8 @@ function AuthStatus() {
   let isLoggingOut = fetcher.formData != null;
 
   return (
-    <div>
-      <p>Welcome {token}!</p>
+    <div className={styles.authStatus}>
+      <p>Welcome {getUsernameFromToken(token)}!</p>
       <fetcher.Form method="post" action="/logout">
         <button type="submit" disabled={isLoggingOut}>
           {isLoggingOut ? "Signing out..." : "Sign out"}

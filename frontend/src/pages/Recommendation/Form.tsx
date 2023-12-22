@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { getRecommendation } from "../../api";
 import { RECOMMENDATION } from "../../constants";
+import classNames from "classnames";
+
+import styles from "./Form.module.scss";
 
 export interface IRecommendationForm {
   patient_name: string;
@@ -37,14 +40,35 @@ export const RecommendationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("patientName", { required: true })} />
-      {errors.patientName && <p>Patient name is required.</p>}
-      <input {...register("indicatorName", { required: true })} />
-      {errors.indicatorName && <p>Indicator name is required.</p>}
-      <input {...register("indicators", { required: true })} />
-      {errors.indicators && <p>Indicator numbers are required.</p>}
-      <input type="submit" />
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.recommendationForm}>
+      <div className={classNames(styles.formGroup, styles.label)}>
+        <label htmlFor="patientName">Patient Name</label>
+        <input
+          {...register("patientName", { required: true })}
+          className={classNames(styles.input, { [styles.inputError]: errors.patientName })}
+        />
+        {errors.patientName && <p className={styles.error}>Patient name is required.</p>}
+      </div>
+
+      <div className={classNames(styles.formGroup, styles.label)}>
+        <label htmlFor="indicatorName">Indicator Name</label>
+        <input
+          {...register("indicatorName", { required: true })}
+          className={classNames(styles.input, { [styles.inputError]: errors.indicatorName })}
+        />
+        {errors.indicatorName && <p className={styles.error}>Indicator name is required.</p>}
+      </div>
+
+      <div className={classNames(styles.formGroup, styles.label)}>
+        <label htmlFor="indicators">Indicators</label>
+        <input
+          {...register("indicators", { required: true })}
+          className={classNames(styles.input, { [styles.inputError]: errors.indicators })}
+        />
+        {errors.indicators && <p className={styles.error}>Indicator numbers are required.</p>}
+      </div>
+
+      <input type="submit" className={styles.submitButton} value="Submit" />
     </form>
   );
 };
