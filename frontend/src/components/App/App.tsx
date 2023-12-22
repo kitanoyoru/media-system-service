@@ -4,8 +4,17 @@ import {
   createBrowserRouter,
   redirect,
 } from "react-router-dom";
-import { ANALYTICS, LOGIN, LOGOUT, MAIN, RECOMMENDATION, RECOMMENDATION_FORM } from "../../constants";
+import {
+  ANALYTICS,
+  ANALYTICS_FORM,
+  LOGIN,
+  LOGOUT,
+  MAIN,
+  RECOMMENDATION,
+  RECOMMENDATION_FORM,
+} from "../../constants";
 import { Analytics } from "../../pages/Analytics";
+import { AnalyticsForm } from "../../pages/Analytics/Form";
 
 import { Home } from "../../pages/Home";
 import { Login } from "../../pages/Login";
@@ -41,6 +50,11 @@ const router = createBrowserRouter([
         path: RECOMMENDATION,
         loader: protectedLoader,
         Component: Recommendation,
+      },
+      {
+        path: ANALYTICS_FORM,
+        loader: protectedLoader,
+        Component: AnalyticsForm,
       },
       {
         path: ANALYTICS,

@@ -34,7 +34,7 @@ export const Layout = () => {
           <Link to="/form/recommendation">Recommendation Page</Link>
         </li>
         <li>
-          <Link to="/analytics">Analytics Page</Link>
+          <Link to="/form/analytics">Analytics Page</Link>
         </li>
       </ul>
 

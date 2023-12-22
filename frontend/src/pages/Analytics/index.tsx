@@ -1,3 +1,2 @@
-export const Analytics = () => {
-  return <p>Analytics</p>;
-};
+export * from "./Form";
+export * from "./Analytics";
