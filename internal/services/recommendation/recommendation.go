@@ -41,7 +41,12 @@ func (rs *RecommendationService) PatientHeartRateInNorm(patientName string, indi
 		return false, err
 	}
 
-	storedIndicators, err := patient.IndicatorInteraction.GetDynamicIndicators(models.HeartRateIndicator)
+	indicator, err := rs.getIndicatorByPatientID(patient.ID)
+	if err != nil {
+		return false, err
+	}
+
+	storedIndicators, err := indicator.GetDynamicIndicators(models.HeartRateIndicator)
 	if err != nil {
 		return false, err
 	}
@@ -79,11 +84,20 @@ func (rs *RecommendationService) PatientWeightInNorm(patientName string, indicat
 
 func (rs *RecommendationService) getPatientByName(name string) (*models.Patient, error) {
 	patient := models.Patient{}
-	if err := rs.db.Preload("IndicatorInteraction").Preload("MedicalWorker").First(&patient, "name = ?", name).Error; err != nil {
+	if err := rs.db.First(&patient, "name = ?", name).Error; err != nil {
 		return nil, err
 	}
 
 	return &patient, nil
+}
+
+func (rs *RecommendationService) getIndicatorByPatientID(patient_id uint) (*models.IndicatorInteraction, error) {
+	indicator := models.IndicatorInteraction{}
+	if err := rs.db.Preload("Weight").Preload("HeartRates").Preload("BloodPressures").First(&indicator, "patient_id = ?", patient_id).Error; err != nil {
+		return nil, err
+	}
+
+	return &indicator, nil
 }
 
 func (rs *RecommendationService) checkIsNorm(requested, stored []float64, difference float64) bool {

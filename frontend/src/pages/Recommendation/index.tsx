@@ -1,3 +1,3 @@
-export const Recommendation = () => {
-  return <p>Recommendation</p>;
-};
+export { Recommendation } from "./Recommendation";
+export { RecommendationForm } from "./Form";
+

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bytes"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/kitanoyoru/media-system-service/internal/domain/dtos"
@@ -33,7 +34,7 @@ func (c *TendencyController) getTendencyHandler(ctx *fiber.Ctx) error {
 			Data: struct {
 				Message string `json:"message"`
 			}{
-				Message: "Invalid request body",
+				Message: fmt.Sprintf("Invalid request body: %s", err),
 			},
 		})
 	}
@@ -45,7 +46,7 @@ func (c *TendencyController) getTendencyHandler(ctx *fiber.Ctx) error {
 			Data: struct {
 				Message string `json:"message"`
 			}{
-				Message: "Internal Error",
+				Message: fmt.Sprintf("Invalid request body: %s", err),
 			},
 		})
 	}
@@ -60,7 +61,7 @@ func (c *TendencyController) getTendencyHandler(ctx *fiber.Ctx) error {
 			Data: struct {
 				Message string `json:"message"`
 			}{
-				Message: "Internal Error",
+				Message: fmt.Sprintf("Invalid request body: %s", err),
 			},
 		})
 	}

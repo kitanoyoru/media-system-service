@@ -31,7 +31,7 @@ export const Layout = () => {
           <Link to="/">Home Page</Link>
         </li>
         <li>
-          <Link to="/recommendation">Recommendation Page</Link>
+          <Link to="/form/recommendation">Recommendation Page</Link>
         </li>
         <li>
           <Link to="/analytics">Analytics Page</Link>
